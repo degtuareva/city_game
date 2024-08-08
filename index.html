@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>City game</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>City game</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <!-- Указываем файл для загрузки скрипта -->
+    <script type="text/javascript" src="js/scripts.js"></script>
+  </head>
+  <!-- В body помещаем вызов метода загрузки данных во время загрузки страницы -->
+  <body onload="load()">
+    <!-- Секция с заголовками -->
+    <header>
+      <!-- Первый заголовок, который отображается при вводе имен игроков -->
+      <div id="first_header" class="custom-made-button" style="text-align: center">Введите свои имена</div>
+      <!-- Второй заголовок, который отображается во время самой игры. Изначально спрятан -->
+      <div id="second_header" style="display: none; text-align: center">
+        Игра началась!
+      </div>
+    </header>
+    <!-- Секция, которая отображается изначально, с формами для ввода имен -->
+    <div id="first_div">
+      <!-- Форма для ввода имени первого игрока -->
+      <div style="float: left; margin-left: 20vw; margin-top: 5vh">
+        <!-- Поле с текстом ошибки. Изначально спрятано -->
+        <div style="display: none; color: red" id="first_name_error">
+          Имя не должно быть пустым!
+        </div>
+        <!-- Поле для ввода имени первого игрока -->
+        <input
+          type="text" class="custom-made-button"
+          style="width: 200px; display: block"
+          id="first_name"
+        />
+        <!-- Кнопка для отправки имени игрока. Вызывает метод проверки имени -->
+        <input
+          type="button" class="custom-made"
+          style="margin-top: 20px"
+          onclick="set_name('first_name')"
+          value="Сохранить имя"
+          id="first_name_button"
+        />
+      </div>
+      <!-- Форма для ввода имени второго игрока -->
+      <div style="float: right; margin-right: 20vw; margin-top: 5vh">
+        <!-- Поле с текстом ошибки. Изначально спрятано -->
+        <div style="display: none; color: red" id="second_name_error">
+          Имя не должно быть пустым!
+        </div>
+        <!-- Поле для ввода имени второго игрока -->
+        <input
+          type="text" class="custom-made-button"
+          style="width: 200px; display: block"
+          id="second_name"
+        />
+        <!-- Кнопка для отправки имени игрока. Вызывает метод проверки имени -->
+        <input
+          type="button" class="custom-made"
+          style="margin-top: 20px"
+          onclick="set_name('second_name')"
+          value="Сохранить имя"
+          id="second_name_button"
+        />
+      </div>
+    </div>
+    <!-- Секция, которая отображается после ввода имени, с основной частью игры. Изначально спрятана -->
+    <div id="second_div" style="display: none">
+      <!-- Поле для отображения хода. Изначально пустое -->
+      <div
+        id="step_announce"
+        style="display: block; text-align: center; margin-top: 20px"
+      ></div>
+      <!-- Блок для вывода последнего города -->
+      <div
+        id="last_city"
+        style="display: block; text-align: center; margin-top: 30px"
+      >
+        <div style="display: inline-block">Последний город:&nbsp;</div>
+        <div style="display: inline" id="last_city_name"></div>
+      </div>
+      <!-- Форма для ввода имени города -->
+      <div style="display: block; margin-top: 5vh"> 
+        <!-- Поле для отображения текста ошибки. Изначально спрятано и пустое -->
+        <div
+          style="
+            display: none;
+            margin: 10px auto;
+            color: red;
+            text-align: center;
+          "
+          id="player_error"
+        ></div>
+        <!-- Поле для ввода имени города -->
+        <input
+          type="text" class="custom-made"
+          style="width: 200px; display: block; margin: 0 auto"
+          id="player_answer"
+        />
+        <!-- Кнопка для отправки имени города. Вызывает метод проверки имени -->
+        <input
+          type="button" class="custom-made1"
+          style="margin: 20px auto; display: block"
+          onclick="check_city()"
+          value="Ввести город"
+          id="player_button"
+        />
+      </div>
+      <!-- Блок отображения результатов первого игрока -->
+      <div style="float: left; margin-left: 20vw; margin-top: 15vh">
+        <!-- Поле отображения имени игрока. Изначально пустое -->
+        <div
+          style="display: block; margin-bottom: 10px"
+          id="first_name_display"
+        ></div>
+        <!-- Поле отображения счета игрока -->
+        <div style="display: block" id="first_name_count"></div>
+        <!-- Кнопка объявления сдачи первого игрока. Вызывает метод сдачи -->
+        <input
+          type="button" class="custom-button"
+          style="margin-top: 20px"
+          onclick="give_up('first')"
+          value="Сдаться"
+          id="first_name_giveup"
+        />
+      </div>
+      <!-- Блок отображения результатов второго игрока -->
+      <div style="float: right; margin-right: 20vw; margin-top: 15vh">
+        <!-- Поле отображения имени игрока. Изначально пустое -->
+        <div
+          style="display: block; margin-bottom: 10px"
+          id="second_name_display"
+        ></div>
+        <!-- Поле отображения счета игрока -->
+        <div style="display: block" id="second_name_count"></div>
+        <!-- Кнопка объявления сдачи второго игрока. Вызывает метод сдачи -->
+        <input
+          type="button" class="custom-button"
+          style="margin-top: 20px"
+          onclick="give_up('second')"
+          value="Сдаться"
+          id="second_name_giveup"
+        />
+      </div>
+    </div>
+    <!-- Секция, которая отображается после поражения игрока, с выводом победителя. Изначально спрятана -->
+    <div id="third_div" style="display: none">
+      <!-- Блок с объявлением победы -->
+      <div
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        "
+      >
+        <!-- Поле для вывода поздравления с именем победителя. Изначально пустое -->
+        <div id="congrats" style="display: block; text-align: center"></div>
+        <!-- Поле для вывода счета игрока -->
+        <div id="score" style="display: block; text-align: center"></div>
+        <!-- Кнопка для начала новой игры -->
+        <input
+          type="button" class="custom-button"
+          style="margin: 20px auto; display: block;"
+          onclick="start_new()"
+          value="Новая игра"
+        />
+      </div>
+    </div>
+  </body>
+</html>
